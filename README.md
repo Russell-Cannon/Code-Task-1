@@ -1,5 +1,9 @@
 # Code Task 1
 
+## To do
+ - [ ] Figure out how Sherine wants the input
+
+## Ask Sherine
  - [x] Part 2
     - What does the sequence of M operations mean?
     - "Read from input source. Could live with a hard-coded source"

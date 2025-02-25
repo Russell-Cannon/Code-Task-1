@@ -1,5 +1,7 @@
 #include "UnionFind.h"
 #include <iostream>
+#include "ResizingArray.h"
+#include <iomanip>
 
 UnionFind::UnionFind() {
     id = new int[N];
@@ -46,6 +48,11 @@ bool UnionFind::Connected(int p, int q) { //Check if elements p and q are in the
     return (Find(p) == Find(q));
 }
 
+int UnionFind::SizeOf(int p) { //Find the size of the component containing element p
+    p = Find(p);
+    return sz[p];
+}
+
 //Displays the id and sz arrays
 void UnionFind::Print() {
     std::cout << "ID: {";
@@ -64,3 +71,75 @@ void UnionFind::Print() {
     }
     std::cout << "}\n";
 } 
+
+
+void UnionFind::DFS(ResizingArray<node> &arr, int source, int depth) {
+    for (int i = 0; i < N; i++) {
+        if (source == i) //Dont add self
+            continue;
+
+        if (id[i] == source) {//Add children of source
+            arr.Push({i, depth + 1});
+            //Add grand children of I
+            DFS(arr, i, depth + 1);
+        }
+    }
+}
+
+void UnionFind::PrintGraph() {
+    ResizingArray<node> tree[N];
+    
+    //Determine roots
+    for (int i = 0; i < N; i++) {
+        if (id[i] != i) //if isnt root
+            continue;
+
+        tree[i].Push({i, 0});
+        DFS(tree[i], i, 0);
+    }
+    
+    std::cout << "\nGraph Visualization:\n";
+    std::cout << "-------------------\n";
+
+    for (int i = 0; i < N; i++) {
+        int depth = 0;
+        for (int j = 0; j < tree[i].getSize(); j++) {
+            if (tree[i][j].depth > depth) { //if node is further down than we are currently printing
+                std::cout << "-> ";
+                depth = tree[i][j].depth;
+            }
+            std::cout << tree[i][j].id << ' ';
+        }
+        std::cout << '\n';
+    }
+
+    for (int i = 0; i < N; i++) {
+        int depth = 0;
+        for (int j = 0; j < tree[i].getSize(); j++) {
+            if (tree[i][j].depth > depth) {
+                std::cout << "-> ";
+                depth = tree[i][j].depth;
+            }
+            std::cout << tree[i][j].id << ' ';
+        }
+        std::cout << '\n';
+    }
+
+    // for (int i = longestBranch - 1; i >= 0; i--) { //Each level of the tree
+    // for (int i = 0; i < longestBranch; i++) { //Each level of the tree
+    //     for (int j = 0; j < N; j++) { //Each branch
+    //         if (tree[j].getSize() > i)
+    //         {
+    //             if (length[tree[j][i]] == i+1) {
+    //                 std::cout << tree[j][i];
+    //                 std::cout << '|' << length[tree[j][i]];
+    //             } else {
+    //                 std::cout << " |" << length[tree[j][i]];
+    //             }
+    //         } else 
+    //             std::cout << "   ";
+    //         std::cout << ' ';
+    //     }
+    //     std::cout << '\n';
+    // }
+}
