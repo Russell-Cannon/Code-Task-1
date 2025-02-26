@@ -32,7 +32,7 @@ int main() {
             case 'Q':
                 std::cout << "a: ";
                 std::cin >> a;
-                std::cout << "size of " << a << " = " << unionFind.SizeOf(a) << '\n';
+                std::cout << "size of component containing " << a << " = " << unionFind.SizeOf(a) << '\n';
             break;
 
             case 'E':
