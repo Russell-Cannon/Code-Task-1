@@ -2,7 +2,7 @@
 #define RESIZINGARRAY_H
 #include <iostream>
 
-//template referenced from geeksforgeeks
+//template referenced from geeksforgeeks (https://www.geeksforgeeks.org/templates-cpp/)
 template <typename T> class ResizingArray {
 public:
     ResizingArray() {
@@ -13,6 +13,10 @@ public:
 
     ~ResizingArray() {
         delete [] arr;
+    }
+
+    T operator[] (int i) const { // credit to stack overflow for overwriting operator (https://stackoverflow.com/questions/37043078/c-overloading-array-operator)
+        return arr[i];
     }
 
     void Push(T element) {
@@ -46,10 +50,6 @@ public:
     }
     int getMaxSize() {
         return maxSize;
-    }
-
-    T* getArr(){
-        return arr;
     }
 
 private:

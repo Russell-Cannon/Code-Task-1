@@ -27,7 +27,7 @@ public:
             throw std::out_of_range("Stack is empty");
         }
         // returns the value of the top value on the stack
-        return data.getArr()[data.getSize() - 1];
+        return data[data.getSize() - 1];
     }
 
     bool IsEmpty() {

@@ -19,11 +19,11 @@ public:
             throw std::out_of_range("Queue underflow");
         }
 
-        T frontElement = data.getArr()[0];
+        T frontElement = data[0];
 
         // shifts all elements one position to the left
         for (int i = 1; i < data.getSize(); i++) {
-            data.getArr()[i - 1] = data.getArr()[i];
+            data[i - 1] = data[i];
         }
 
         data.Pop();  // removes the duplicate at the end (due to the shift)
@@ -35,7 +35,7 @@ public:
             throw std::out_of_range("Queue is empty");
         }
         // returns the front of the queue
-        return data.getArr()[0];
+        return data[0];
     }
 
     bool IsEmpty() {

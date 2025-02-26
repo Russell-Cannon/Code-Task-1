@@ -6,5 +6,5 @@ main:	main.o UnionFind.o
 main.o:	main.cpp
 	$(CPP) -c -o $@ $<
 
-UnionFind.o:	UnionFind.cpp UnionFind.h ResizingArray.h
+UnionFind.o:	UnionFind.cpp UnionFind.h
 	$(CPP) -c -o $@ $<

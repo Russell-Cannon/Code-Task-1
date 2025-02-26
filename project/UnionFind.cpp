@@ -23,7 +23,7 @@ void UnionFind::Union(int p, int q) {//Merge two components represented by eleme
     i = Find(q);
     j = Find(p);
 
-    if (i == j) return; //p and q share a root - i.e. they are connected
+    if (i == j) return; //p and q share a root - i.e. they are already connected
     
     if (sz[i] < sz[j]) { //merge weighted
         id[i] = j;
@@ -44,6 +44,11 @@ int UnionFind::Find(int p) { //Find the component identifier of element p. //Fin
 bool UnionFind::Connected(int p, int q) { //Check if elements p and q are in the same component.
     //If p and q share the same root they are in the same component
     return (Find(p) == Find(q));
+}
+
+int UnionFind::SizeOf(int p) { //Find the size of the component containing element p
+    p = Find(p);
+    return sz[p];
 }
 
 //Displays the id and sz arrays
