@@ -2,24 +2,7 @@
 #include "Stack.h"
 #include "Queue.h"
 
-void ReverseCString(char* str) {
-    Stack<char> stack;
-    int i = 0;
-    // ends at the delimeter character of the c-string
-    while (str[i] != '\0') {
-        // pushes each char from the c-string onto the stack
-        stack.Push(str[i]);
-        i++;
-    }
-
-    // resets i back to 0
-    i = 0;
-
-    // empties the stack, reversing the c-string in the process
-    while (!stack.IsEmpty()) {
-        str[i++] = stack.Pop();
-    }
-}
+void ReverseCString(char* str);
 
 class StackQueue {
 private:
@@ -98,4 +81,23 @@ int main() {
     }
 
     return 0;
+}
+
+void ReverseCString(char* str) {
+    Stack<char> stack;
+    int i = 0;
+    // ends at the delimiteter character of the c-string
+    while (str[i] != '\0') {
+        // pushes each char from the c-string onto the stack
+        stack.Push(str[i]);
+        i++;
+    }
+
+    // resets i back to 0
+    i = 0;
+
+    // empties the stack, reversing the c-string in the process
+    while (!stack.IsEmpty()) {
+        str[i++] = stack.Pop();
+    }
 }

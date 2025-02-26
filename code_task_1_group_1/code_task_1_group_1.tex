@@ -1,0 +1,207 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{harvard}
+\usepackage{forest}
+\usepackage{indentfirst}
+\usepackage{hyperref}
+
+\forestset{
+    default preamble = {
+        grow=south,
+        for tree ={
+            edge={white},
+            where level = 1{}{
+                edge={black} % trees have to start from some root, but our array doesn't always share the same root. We make an empty root and hide the edges
+            }
+        }
+    }
+}
+
+\begin{document}
+\title{Code Task 1}
+\author{Chica Gomes, Christian Tuttle, Russell Cannon, Stephen Bruner III}
+\date{February 13th, 2025}
+
+\maketitle
+
+\begin{abstract}
+
+\noindent Sedgewick, Robert. Algorithms in C, Parts 1-4. Available from: Colorado Mesa University, (3rd Edition). Pearson Technology Group, 1997.\\
+
+\noindent Zivanovi, Saso. \href{https://ctan.math.utah.edu/ctan/tex-archive/graphics/pgf/contrib/forest/forest-doc.pdf}{Forest: a pgf/TikZ-based package for drawing linguistic trees}. Available from: University of Utah.\\
+
+\noindent Geeks for Geeks. \href{https://www.geeksforgeeks.org/templates-cpp/}{Templates in c++ with Examples}.\\
+
+\noindent Stack Overflow. \href{https://stackoverflow.com/questions/37043078/c-overloading-array-operator}{C++ Overloading Array Operator}.\\
+
+\end{abstract}
+
+\newpage
+\section{Union-Find Data Structure}
+
+Using the weighted Quick-Union with path compression algorithm, the following 11 union operations result in the accompanying tree representations.
+
+\begin{forest} [
+    [0]
+    [1]
+    [2] 
+    [3] 
+    [4] 
+    [5] 
+    [6] 
+    [7] 
+    [8] 
+    [9] 
+    [10] ] \end{forest}
+
+\vspace{7mm}
+Operation 1. $Union (2, 5)$
+
+\begin{forest} [
+    [0]
+    [1]
+    [3] 
+    [4] 
+    [5 [2]] 
+    [6] 
+    [7] 
+    [8] 
+    [9] 
+    [10] ] \end{forest}
+\\
+Node 2 is parented to node 5 to union the two.\\
+
+\vspace{7mm}
+Operation 2. $Union (5, 9)$
+
+\begin{forest} [
+    [0]
+    [1]
+    [3] 
+    [4] 
+    [5 [2] [9]] 
+    [6] 
+    [7] 
+    [8] 
+    [10] ] \end{forest}
+
+\vspace{7mm}
+Operation 3. $Union (1, 3)$
+
+\begin{forest} [
+    [0]
+    [3 [1]] 
+    [4] 
+    [5 [2] [9]] 
+    [6] 
+    [7] 
+    [8] 
+    [10] ] \end{forest}
+
+\vspace{7mm}
+Operation 4. $Union (4, 10)$
+
+\begin{forest} [
+    [0]
+    [3 [1]] 
+    [5 [2] [9]] 
+    [6] 
+    [7] 
+    [8] 
+    [10 [4]] ] \end{forest}
+    
+\vspace{7mm}
+Operation 5. $Union (3, 6)$
+
+\begin{forest} [
+    [0]
+    [3 [1] [6]] 
+    [5 [2] [9]] 
+    [7] 
+    [8] 
+    [10 [4]] ] \end{forest}
+
+\vspace{7mm}
+Operation 6. $Union (5, 10)$
+
+\begin{forest} [
+    [0]
+    [3 [1] [6]] 
+    [5 [2] [9] [10 [4]]] 
+    [7] 
+    [8] ] \end{forest}
+\\
+Node 10 is parented to node 5 to union the two. Node 10 also has a child node (4) and is parented alongside.\\
+
+
+\vspace{7mm}
+Operation 7. $Union (1, 2)$
+
+\begin{forest} [
+    [0] 
+    [5 [2] [9] [10 [4]] [3 [1] [6]]] 
+    [7] 
+    [8] ] \end{forest}
+\\
+Node 1's root node is node 3 and node 2's root node is 5. To connect node 1 and 2, we have to merge both of their roots. Because node 5 has a much larger tree, we choose to parent node 3 to node 5. The children of node 3 all have longer path lengths after this merge. This is unavoidable, so we chose to parent the smaller tree onto the larger so the least number of nodes increase in path length. \\
+
+\newpage
+Operation 8. $Union (4, 0)$
+
+\begin{forest} [
+    [5 [2] [9] [10] [3 [1] [6]] [4] [0]] 
+    [7] 
+    [8] ] \end{forest}
+\\
+Node 0 is parented to node 4's root: node 5. Because we accessed 4 to find its root node, we are able to compress the path between the node and its root to make it faster to access later.\\
+
+\vspace{7mm}
+Operation 9. $Union (4, 8)$
+
+\begin{forest} [
+    [5 [2] [9] [10] [3 [1] [6]] [4] [0] [8]] 
+    [7] ] \end{forest}
+
+\vspace{7mm}
+Operation 10. $Union (1, 8)$
+
+\begin{forest} [
+    [5 [2] [9] [10] [3 [6]] [1] [4] [0] [8]] 
+    [7] ] \end{forest}
+    
+\vspace{7mm}
+Operation 11. $Union (2, 0)$
+
+\begin{forest} [
+    [5 [2] [9] [10] [3 [6]] [1] [4] [0] [8]] 
+    [7] ] \end{forest}
+
+\newpage
+
+\section{Algorithm Analysis}
+
+In the worst case scenario, the time complexity is M + N lg(N). For example, if we had N = 10 to the power of 6 and M = 10 to the power of 6, then the time complexity would be close to 20 million. Comparing this to Quick Find, the time complexity would be around 47000 times longer (MN).
+Below, we created a graph that compares Quick union with path compression to quick find. We set M = 11 and N as the variable X. As you can see, quick-find becomes much slower very quickly. 
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=0.5\linewidth]{M-11.png}
+\caption{$O(N*M)$ in black vs $M + N*log(N)$ in red. Time: y, N: x, M: 11.}
+\end{figure}
+
+As far as some possible optimizations, weighted quick union with path compression is already a near-linear algorithm. We could possibly find/ implement a better path compression system which may allow the algorithm to get even closer to linear complexity.
+
+\newpage
+\section{Additional Task}
+
+For the additional task, we implemented a Queue and a stack using a resizing array. To accomplish this, we had a resizing array class that included push and pop functions. These helped us to add or remove an element from the array. In order to be able to resize the array, we had two private member functions called double and quarter both of which would create a new array either twice or a fourth of the size of the previous array, then move all the elements from the old array to the new array. \\
+
+Then we had a class for both the stack and queue. The main difference between the two is stack is last in - first out and a queue is first in - first out. This basically means that we need to be careful about which elements we are popping for each of the classes. Finally, in the main file, we first used the stack and queue for adding and removing numbers. Then we used a stack to reverse a string and used two stacks to simulate a queue.
+
+\vspace{7mm}
+
+\textbf{Possible optimizations:}
+
+For the Resizing Array queue implementation, pushing and popping is $O(N^2)$. Every time an element is pushed onto or popped off of the queue, the array shifts one element backwards or forwards, respectively. A common workaround for this is to keep track of a two indices in the array for the head and tail of the queue. This allows us to make pushing and popping elements $O(N)$ but also makes resizing the array more complicated. This occurs because if the head moves far enough away from index 0, the tail can hit the end of the array without the actual data being larger than the array. This is solved by looping around the end of the array back to the start. Unfortunately, this also means the tail can be behind the head, complicating the array further. All this complexity means when we resize the array, we must unravel the queue and move the head back to index 0 in the new array.
+
+\end{document}

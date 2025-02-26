@@ -19,6 +19,11 @@ public:
         return arr[i];
     }
 
+    T& operator[] (int i) {
+        return arr[i];
+    }
+
+
     void Push(T element) {
         if (size >= maxSize) 
             Double();
